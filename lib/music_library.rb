@@ -13,6 +13,15 @@ class Song
 		@@all << self
 	end
 
+	def artist=(artist)
+		if !artist.songs.include?(self)
+			artist.add_song(self)
+		end
+		if self.artist == nil
+			@artist = artist
+		end
+	end
+
 	def self.create(name)
 		new_obj = new(name)
 		new_obj.save
@@ -32,21 +41,32 @@ end
 
 class Artist
 
-	attr_accessor :name
+	attr_accessor :name, :songs
 
 	@@all = []
 
 	def initialize(name)
 		@name = name
+		@songs = []
 	end
 
 	def save
 		@@all << self
 	end
 
+	def add_song(song)
+		if song.artist == nil
+			song.artist = self
+		end
+		if !@songs.include?(song)
+			@songs << song
+		end
+	end
+
 	def self.create(name)
 		new_obj = new(name)
 		new_obj.save
+		new_obj
 	end
 
 	def self.all
@@ -77,6 +97,7 @@ class Genre
 	def self.create(name)
 		new_obj = new(name)
 		new_obj.save
+		new_obj
 	end
 
 	def self.all
