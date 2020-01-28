@@ -1,15 +1,15 @@
 class Song
 
-	attr_accessor :name, :artist
+	extend Concerns::Findable
+
+	attr_accessor :name, :artist, :genre
 
 	@@all = []
 
-	def initialize(name, artist=nil)
+	def initialize(name, artist = nil, genre = nil)
 		@name = name
-		@artist = artist
-		if @artist != nil
-			artist = artist
-		end
+		self.artist = artist
+		self.genre = genre
 	end
 
 	def save
@@ -18,7 +18,16 @@ class Song
 
 	def artist=(artist)
 		@artist = artist
-		artist.add_song(self)
+		if artist != nil
+			artist.add_song(self)
+		end
+	end
+
+	def genre=(genre)
+		@genre = genre
+		if genre != nil
+			genre.add_song(self)
+		end
 	end
 
 	def self.create(name)
@@ -39,6 +48,8 @@ end
 
 
 class Artist
+
+	extend Concerns::Findable
 
 	attr_accessor :name, :songs
 
@@ -62,6 +73,13 @@ class Artist
 		end
 	end
 
+	def genres
+		genres = @songs.map do |song|
+			song.genre
+		end
+		genres.uniq
+	end
+
 	def self.create(name)
 		new_obj = new(name)
 		new_obj.save
@@ -81,16 +99,35 @@ end
 
 class Genre
 
-	attr_accessor :name
+	extend Concerns::Findable
+
+	attr_accessor :name, :songs
 
 	@@all = []
 
 	def initialize(name)
 		@name = name
+		@songs = []
 	end
 
 	def save
 		@@all << self
+	end
+
+	def add_song(song)
+		if song.artist == nil
+			song.artist = self
+		end
+		if !@songs.include?(song)
+			@songs << song
+		end
+	end
+
+	def artists
+		artists = @songs.map do |song|
+			song.artist
+		end
+		artists.uniq
 	end
 
 	def self.create(name)
