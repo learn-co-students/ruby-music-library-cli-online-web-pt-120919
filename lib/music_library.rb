@@ -16,6 +16,7 @@ class Song
 	def self.create(name)
 		new_obj = new(name)
 		new_obj.save
+		new_obj
 	end
 
 	def self.all
