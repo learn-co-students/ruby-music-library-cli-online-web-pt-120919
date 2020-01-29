@@ -1,6 +1,6 @@
 require "concerns"
 
-class Artist
+class Genre 
   attr_accessor :name, :songs
 
   extend Concerns::Findable
@@ -14,17 +14,15 @@ class Artist
   end
 
   def add_song(song)
-    return if song.artist
     @songs << song
-    song.artist = self
-
+    song.genre = self
   end
 
-  def genres
+  def artists
     collection = []
 
     songs.each do |song|
-      collection << song.genre if !collection.include?(song.genre)
+      collection << song.artist if !collection.include?(song.artist)
     end
 
     collection
@@ -35,7 +33,7 @@ class Artist
   end
 
   def self.create(name)
-    Artist.new(name)
+    Genre.new(name)
   end
 
   def self.all
@@ -45,4 +43,4 @@ class Artist
   def self.destroy_all
     @@all = []
   end
-end 
+end
