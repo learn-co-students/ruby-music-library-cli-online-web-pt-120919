@@ -21,6 +21,9 @@ class MusicLibraryController
 	end
 
 	def list_songs
+		songs = Song.all.sort do |a, b|
+			a.name <=> b.name
+		end
 	end
 
 end
