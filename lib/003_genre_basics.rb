@@ -3,6 +3,7 @@ class Genre
   @@all = []
   
   def initialize(name)
+    @songs = []
     @name = name
     @@all << self
   end
@@ -23,6 +24,10 @@ class Genre
     @self = name
     @@all << @self
     @self
+  end
+  
+  def songs
+    @songs
   end
 
 end
