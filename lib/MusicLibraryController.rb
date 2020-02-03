@@ -5,7 +5,8 @@ class MusicLibraryController
     def initialize(path='./db/mp3s')
         @path = path 
         file = MusicImporter.new(path)
-        Song.all << file.import
+        file.import
+        #binding.pry
     end
 
     def call
@@ -20,7 +21,7 @@ class MusicLibraryController
         puts "To quit, type 'exit'."
         puts "What would you like to do?"
 
-        # if input != exit
+        if input != "exit"
             case input
             when 'list songs'
                 list_songs
@@ -35,18 +36,15 @@ class MusicLibraryController
             when 'play song'
                 play_song
             end
-
-        # else
-        #     call
-        # end 
+            call
+        end 
 
     end 
 
     def list_songs
-        Song.all.sort {|a,b| a.name <=> b.name}.each.with_index(1) do |song,index|
-            binding.pry 
+        
+        Song.all.sort_by {|song| song.name}.each.with_index(1) do |song,index| 
             puts "#{index}. #{song.artist.name} - #{song.name} - #{song.genre.name}"
-            #binding.pry 
         end
     end
 
@@ -84,15 +82,16 @@ class MusicLibraryController
     end
 
     def play_song
-        input = gets.strip.to_i
-        list_songs
         puts "Which song number would you like to play?"
-       
-
+        input = gets.strip.to_i
         if (1..Song.all.length).include?(input)
-            #song = list_song[input+2]
-            puts "Playing #{song.name} by #{song.artist.name}"
+            song_play = Song.all.sort_by {|song| song.name}[input-1]
+                puts "Playing #{song_play.name} by #{song_play.artist.name}"
         end
+        
+        #list_songs
+       
     end
+
 
 end 
