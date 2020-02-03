@@ -1,6 +1,7 @@
 require "spec_helper"
 
 describe "MusicLibraryController - CLI Methods" do
+  #Song.all.clear
   let(:music_library_controller) { MusicLibraryController.new("./spec/fixtures/mp3s") }
   let(:other_music_library_controller) { MusicLibraryController.new("./spec/fixtures/other_mp3s") }
 
