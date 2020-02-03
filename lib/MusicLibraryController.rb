@@ -6,7 +6,6 @@ class MusicLibraryController
         @path = path 
         file = MusicImporter.new(path)
         file.import
-        #binding.pry
     end
 
     def call
@@ -41,8 +40,7 @@ class MusicLibraryController
 
     end 
 
-    def list_songs
-        
+    def list_songs      
         Song.all.sort_by {|song| song.name}.each.with_index(1) do |song,index| 
             puts "#{index}. #{song.artist.name} - #{song.name} - #{song.genre.name}"
         end
@@ -63,7 +61,6 @@ class MusicLibraryController
     def list_songs_by_artist
         input = gets.strip
         puts "Please enter the name of an artist:"
-        #Song.all.detect{|artist|song.artist.name == input ? puts }
         if artist = Artist.find_by_name(input)
             artist.songs.sort_by {|song|song.name}.each.with_index(1) do |song,index|
                 puts "#{index}. #{song.name} - #{song.genre.name}"
@@ -87,11 +84,6 @@ class MusicLibraryController
         if (1..Song.all.length).include?(input)
             song_play = Song.all.sort_by {|song| song.name}[input-1]
                 puts "Playing #{song_play.name} by #{song_play.artist.name}"
-        end
-        
-        #list_songs
-       
+        end    
     end
-
-
 end 
