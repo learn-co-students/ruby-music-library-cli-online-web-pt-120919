@@ -3,3 +3,7 @@
 require_relative '../config/environment'
 
 MusicLibraryController.new.call
+
+# build CLI here
+# lets a user browse the library of MP3s imported by song, artist, and genre.
+
